@@ -1,20 +1,19 @@
 package com.whatsreckless;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
-
-
+import android.widget.Toast;
 
 public class MainWhatsReckless extends Activity {
 
+	LocationLookup locationLookupService = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +22,9 @@ public class MainWhatsReckless extends Activity {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
+        }
+        if (locationLookupService ==null){
+        	locationLookupService = new LocationLookup(this);
         }
     }
 
@@ -60,5 +62,19 @@ public class MainWhatsReckless extends Activity {
             View rootView = inflater.inflate(R.layout.fragment_main_whats_reckless, container, false);
             return rootView;
         }
+    }
+    
+    public void pullState(View v){
+    	String displayString = "No GPS Fix, go to window or outside";
+    	Location loc = locationLookupService.getCurrentLocation();
+    	if (loc != null){
+    		String state = locationLookupService.getCurrentState();
+    		if (state!=null){
+    			displayString  = "State = " + state;
+    		} else {
+        		displayString = "No State for Location:"+loc.getLatitude()+","+loc.getLongitude();
+        	}
+    	}
+    	Toast.makeText(this, displayString, Toast.LENGTH_LONG).show();
     }
 }
