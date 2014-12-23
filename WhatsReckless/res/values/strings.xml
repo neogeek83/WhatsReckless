@@ -18,4 +18,6 @@
     <string name="location_unassigned">Location has not been determined yet</string>
     <string name="no_state_found">Location address did not resolve to address with state info</string>
         
+    <!-- Parsing error messages -->
+    <string name="invalid_wikipedia_headers">Invalid source information detected.</string>
 </resources>
