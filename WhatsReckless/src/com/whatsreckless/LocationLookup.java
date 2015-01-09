@@ -16,208 +16,196 @@ import android.util.Log;
 
 public class LocationLookup implements LocationLookupInterface {
 
-	private LocationListener locListener = null;
-	private Location currentLocation = null;
+    private LocationListener locListener = null;
+    private Location currentLocation = null;
 
-	private LocationManager manager = null;
-	private Context context = null;
+    private LocationManager manager = null;
+    private Context context = null;
 
-	public LocationLookup(Activity context){
-		this.context = context;
+    public LocationLookup( Activity context ) {
+        this.context = context;
 
-		manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-		locListener = new LocationListener(){
-			@Override
-			public void onLocationChanged(Location location) { currentLocation = location;}
-			@Override
-			public void onStatusChanged(String provider, int status, Bundle extras) { }
-			@Override
-			public void onProviderEnabled(String provider) { }
-			@Override
-			public void onProviderDisabled(String provider) { }
-		};
-		enableLocationUpdates();
-	}
+        manager = (LocationManager) context.getSystemService( Context.LOCATION_SERVICE );
+        locListener = new LocationListener() {
+            @Override
+            public void onLocationChanged( Location location ) {
+                currentLocation = location;
+            }
 
-	@Override
-	public String getCurrentState() {
-		if (currentLocation != null){
-			Address addr = getAddress(currentLocation);
-			if (addr != null){
-				if (addr.getAdminArea() == null){
-					Log.e(this.getClass().getSimpleName(), context.getString(R.string.no_state_found));
-				}
-				return addr.getAdminArea();
-			} else {
-				Log.e(this.getClass().getSimpleName(), context.getString(R.string.no_address_found));
-				return null;
-			}
-		} else {
+            @Override
+            public void onStatusChanged( String provider, int status, Bundle extras ) {
+            }
 
-			Log.e(this.getClass().getSimpleName(), context.getString(R.string.location_unassigned));
-			return null;
-		}
-	}
+            @Override
+            public void onProviderEnabled( String provider ) {
+            }
 
-	@SuppressWarnings("unused")
-	private String getFormattedAddress(final Location location){
-		/*
-		 * Get a new geocoding service instance, set for localized addresses. This example uses
-		 * android.location.Geocoder, but other geocoders that conform to address standards
-		 * can also be used.
-		 */
-		Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+            @Override
+            public void onProviderDisabled( String provider ) {
+            }
+        };
+        enableLocationUpdates();
+    }
 
-		// Create a list to contain the result address
-		List <Address> addresses = null;
+    @Override
+    public String getCurrentState() {
+        if ( currentLocation != null ) {
+            Address addr = getAddress( currentLocation );
+            if ( addr != null ) {
+                if ( addr.getAdminArea() == null ) {
+                    Log.e( this.getClass().getSimpleName(), context.getString( R.string.no_state_found ) );
+                }
+                return addr.getAdminArea();
+            } else {
+                Log.e( this.getClass().getSimpleName(), context.getString( R.string.no_address_found ) );
+                return null;
+            }
+        } else {
 
-		// Try to get an address for the current location. Catch IO or network problems.
-		try {
+            Log.e( this.getClass().getSimpleName(), context.getString( R.string.location_unassigned ) );
+            return null;
+        }
+    }
 
-			/*
-			 * Call the synchronous getFromLocation() method with the latitude and
-			 * longitude of the current location. Return at most 1 address.
-			 */
-			addresses = geocoder.getFromLocation(currentLocation.getLatitude(),
-					location.getLongitude(), 1
-					);
+    @SuppressWarnings( "unused" )
+    private String getFormattedAddress( final Location location ) {
+        /*
+         * Get a new geocoding service instance, set for localized addresses. This example uses android.location.Geocoder, but other geocoders that conform to address standards can also be used.
+         */
+        Geocoder geocoder = new Geocoder( context, Locale.getDefault() );
 
-			// Catch network or other I/O problems.
-		} catch (IOException exception1) {
+        // Create a list to contain the result address
+        List<Address> addresses = null;
 
-			// Log an error and return an error message
-			Log.e(this.getClass().getSimpleName(), context.getString(R.string.IO_Exception_getFromLocation));
+        // Try to get an address for the current location. Catch IO or network problems.
+        try {
 
-			// print the stack trace
-			exception1.printStackTrace();
+            /*
+             * Call the synchronous getFromLocation() method with the latitude and longitude of the current location. Return at most 1 address.
+             */
+            addresses = geocoder.getFromLocation( currentLocation.getLatitude(), location.getLongitude(), 1 );
 
-			// Return an error message
-			return (context.getString(R.string.IO_Exception_getFromLocation));
+            // Catch network or other I/O problems.
+        } catch ( IOException exception1 ) {
 
-			// Catch incorrect latitude or longitude values
-		} catch (IllegalArgumentException exception2) {
+            // Log an error and return an error message
+            Log.e( this.getClass().getSimpleName(), context.getString( R.string.IO_Exception_getFromLocation ) );
 
-			// Construct a message containing the invalid arguments
-			String errorString = context.getString(
-					R.string.illegal_argument_exception,
-					location.getLatitude(),
-					location.getLongitude()
-					);
-			// Log the error and print the stack trace
-			Log.e(this.getClass().getSimpleName(), errorString);
-			exception2.printStackTrace();
+            // print the stack trace
+            exception1.printStackTrace();
 
-			//
-			return errorString;
-		}
-		// If the reverse geocode returned an address
-		if (addresses != null && addresses.size() > 0) {
+            // Return an error message
+            return ( context.getString( R.string.IO_Exception_getFromLocation ) );
 
-			// Get the first address
-			Address address = addresses.get(0);
+            // Catch incorrect latitude or longitude values
+        } catch ( IllegalArgumentException exception2 ) {
 
-			// Format the first line of address
-			String addressText = context.getString(R.string.address_output_string,
+            // Construct a message containing the invalid arguments
+            String errorString = context.getString( R.string.illegal_argument_exception, location.getLatitude(), location.getLongitude() );
+            // Log the error and print the stack trace
+            Log.e( this.getClass().getSimpleName(), errorString );
+            exception2.printStackTrace();
 
-					// If there's a street address, add it
-					address.getMaxAddressLineIndex() > 0 ?
-							address.getAddressLine(0) : "",
+            //
+            return errorString;
+        }
+        // If the reverse geocode returned an address
+        if ( addresses != null && addresses.size() > 0 ) {
 
-							// Locality is usually a city
-							address.getLocality(),
+            // Get the first address
+            Address address = addresses.get( 0 );
 
-							// The country of the address
-							address.getCountryName()
-					);
+            // Format the first line of address
+            String addressText = context.getString( R.string.address_output_string,
 
-			// Return the text
-			return addressText;
+            // If there's a street address, add it
+                            address.getMaxAddressLineIndex() > 0 ? address.getAddressLine( 0 ) : "",
 
-			// If there aren't any addresses, post a message
-		} else {
-			return context.getString(R.string.no_address_found);
-		}
-	}
-	private Address getAddress(final Location location){
-		/*
-		 * Get a new geocoding service instance, set for localized addresses. This example uses
-		 * android.location.Geocoder, but other geocoders that conform to address standards
-		 * can also be used.
-		 */
-		Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+                            // Locality is usually a city
+                            address.getLocality(),
 
-		// Create a list to contain the result address
-		List <Address> addresses = null;
+                            // The country of the address
+                            address.getCountryName() );
 
-		// Try to get an address for the current location. Catch IO or network problems.
-		try {
+            // Return the text
+            return addressText;
 
-			/*
-			 * Call the synchronous getFromLocation() method with the latitude and
-			 * longitude of the current location. Return at most 1 address.
-			 */
-			addresses = geocoder.getFromLocation(currentLocation.getLatitude(),
-					location.getLongitude(), 1
-					);
+            // If there aren't any addresses, post a message
+        } else {
+            return context.getString( R.string.no_address_found );
+        }
+    }
 
-			// Catch network or other I/O problems.
-		} catch (IOException exception1) {
+    private Address getAddress( final Location location ) {
+        /*
+         * Get a new geocoding service instance, set for localized addresses. This example uses android.location.Geocoder, but other geocoders that conform to address standards can also be used.
+         */
+        Geocoder geocoder = new Geocoder( context, Locale.getDefault() );
 
-			// Log an error and return an error message
-			Log.e(this.getClass().getSimpleName(), context.getString(R.string.IO_Exception_getFromLocation));
+        // Create a list to contain the result address
+        List<Address> addresses = null;
 
-			// print the stack trace
-			exception1.printStackTrace();
+        // Try to get an address for the current location. Catch IO or network problems.
+        try {
 
-			// Return an error message
-			return null;
+            /*
+             * Call the synchronous getFromLocation() method with the latitude and longitude of the current location. Return at most 1 address.
+             */
+            addresses = geocoder.getFromLocation( currentLocation.getLatitude(), location.getLongitude(), 1 );
 
-			// Catch incorrect latitude or longitude values
-		} catch (IllegalArgumentException exception2) {
+            // Catch network or other I/O problems.
+        } catch ( IOException exception1 ) {
 
-			// Construct a message containing the invalid arguments
-			String errorString = context.getString(
-					R.string.illegal_argument_exception,
-					location.getLatitude(),
-					location.getLongitude()
-					);
-			// Log the error and print the stack trace
-			Log.e(this.getClass().getSimpleName(), errorString);
-			exception2.printStackTrace();
+            // Log an error and return an error message
+            Log.e( this.getClass().getSimpleName(), context.getString( R.string.IO_Exception_getFromLocation ) );
 
-			//
-			return null;
-		}
-		// If the reverse geocode returned an address
-		if (addresses != null && addresses.size() > 0) {
+            // print the stack trace
+            exception1.printStackTrace();
 
-			// Get the first address
-			Address address = addresses.get(0);
+            // Return an error message
+            return null;
 
-			// Return the text
-			return address;
+            // Catch incorrect latitude or longitude values
+        } catch ( IllegalArgumentException exception2 ) {
 
-			// If there aren't any addresses, post a message
-		} else {
+            // Construct a message containing the invalid arguments
+            String errorString = context.getString( R.string.illegal_argument_exception, location.getLatitude(), location.getLongitude() );
+            // Log the error and print the stack trace
+            Log.e( this.getClass().getSimpleName(), errorString );
+            exception2.printStackTrace();
 
-			Log.e(this.getClass().getSimpleName(), context.getString(R.string.no_address_found));
-			return null;
-		}
-	}
+            //
+            return null;
+        }
+        // If the reverse geocode returned an address
+        if ( addresses != null && addresses.size() > 0 ) {
 
+            // Get the first address
+            Address address = addresses.get( 0 );
 
-	public Location getCurrentLocation() {
-		return currentLocation;
-	}
+            // Return the text
+            return address;
 
-	public void disableLocationUpdates() {
-		manager.removeUpdates(locListener);
-	}
+            // If there aren't any addresses, post a message
+        } else {
 
-	/**
-	 * Not needed for first start, but if disabled, allows for restarting.
-	 */
-	public void enableLocationUpdates() {
-		manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locListener);
-	}
+            Log.e( this.getClass().getSimpleName(), context.getString( R.string.no_address_found ) );
+            return null;
+        }
+    }
+
+    public Location getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public void disableLocationUpdates() {
+        manager.removeUpdates( locListener );
+    }
+
+    /**
+     * Not needed for first start, but if disabled, allows for restarting.
+     */
+    public void enableLocationUpdates() {
+        manager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 1000, 0, locListener );
+    }
 }
