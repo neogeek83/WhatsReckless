@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.whatsreckless;
+package com.whatsreckless.location;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,8 +21,6 @@ import java.util.List;
 import java.util.Locale;
 
 import com.whatsreckless.R;
-import com.whatsreckless.location.LocationLookupInterface;
-import com.whatsreckless.location.StateChangeListener;
 
 import android.app.Activity;
 import android.content.Context;
@@ -38,6 +36,7 @@ public class LocationLookup implements LocationLookupInterface {
 
     private LocationListener locListener = null;
     private Location currentLocation = null;
+    private String currentState = null;
 
     private LocationManager manager = null;
     private Context context = null;
@@ -53,7 +52,14 @@ public class LocationLookup implements LocationLookupInterface {
         locListener = new LocationListener() {
             @Override
             public void onLocationChanged( Location location ) {
+            	
+            	// Check for state change, if found notify listeners
+            	String state = getStateForLocation(location);
+            	if (currentState!=null && state!=null && !state.equals(currentState)){
+            		notifyStateChangeListeners(currentState, state);
+            	}
                 currentLocation = location;
+                currentState = state;
             }
 
             @Override
@@ -71,6 +77,12 @@ public class LocationLookup implements LocationLookupInterface {
         enableLocationUpdates();
     }
 
+    private void notifyStateChangeListeners(String oldState, String newState){
+    	for(final StateChangeListener listener: stateChangeListeners){
+    		listener.onStateLocationChanged(oldState, newState);
+    	}
+    }
+    
     @Override
     public String getCurrentState() {
         if ( currentLocation != null ) {
@@ -111,7 +123,7 @@ public class LocationLookup implements LocationLookupInterface {
             /*
              * Call the synchronous getFromLocation() method with the latitude and longitude of the current location. Return at most 1 address.
              */
-            addresses = geocoder.getFromLocation( currentLocation.getLatitude(), location.getLongitude(), 1 );
+            addresses = geocoder.getFromLocation( location.getLatitude(), location.getLongitude(), 1 );
 
             // Catch network or other I/O problems.
         } catch ( IOException exception1 ) {
@@ -177,9 +189,9 @@ public class LocationLookup implements LocationLookupInterface {
         try {
 
             /*
-             * Call the synchronous getFromLocation() method with the latitude and longitude of the current location. Return at most 1 address.
+             * Call the synchronous getFromLocation() method with the latitude and longitude of the given location. Return at most 1 address.
              */
-            addresses = geocoder.getFromLocation( currentLocation.getLatitude(), location.getLongitude(), 1 );
+            addresses = geocoder.getFromLocation( location.getLatitude(), location.getLongitude(), 1 );
 
             // Catch network or other I/O problems.
         } catch ( IOException exception1 ) {

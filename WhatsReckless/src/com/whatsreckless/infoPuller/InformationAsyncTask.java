@@ -1,5 +1,5 @@
 /**
- * Copyright 2014 Luke Gordon and Kenny Neal
+ * Copyright 2014-2015 Luke Gordon and Kenny Neal
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.whatsreckless;
+package com.whatsreckless.infoPuller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +28,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.whatsreckless.R;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -36,7 +37,7 @@ import android.util.Log;
  * @author gordysc
  * 
  */
-final class InformationAsyncTask extends AsyncTask<Void, Void, Map<String, String>> {
+public final class InformationAsyncTask extends AsyncTask<Void, Void, Map<String, String>> {
     /**
      * Tag used for logging
      */
@@ -75,7 +76,7 @@ final class InformationAsyncTask extends AsyncTask<Void, Void, Map<String, Strin
     /**
      * A key to use for fetching the names of the columns in the Wikipedia article
      */
-    static final String COLUMN_NAMES = "columns";
+    public static final String COLUMN_NAMES = "columns";
 
     /**
      * The state we want to asynchronously get reckless driving information for
@@ -86,7 +87,7 @@ final class InformationAsyncTask extends AsyncTask<Void, Void, Map<String, Strin
      * @param context of this activty
      * @param state we want to asynchronously get reckless driving information for
      */
-    InformationAsyncTask( Activity context, String state ) {
+    public InformationAsyncTask( Activity context, String state ) {
         this.context = context;
         this.state = state;
     }
