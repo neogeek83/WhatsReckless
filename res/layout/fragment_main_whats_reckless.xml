@@ -13,7 +13,9 @@
         android:layout_width="288dp"
         android:layout_height="372dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/btnPullCurrentState"
+        android:layout_alignParentStart="true" />
 
     <TableLayout
         android:id="@+id/recklessInfoTable"
@@ -36,9 +38,9 @@
         android:id="@+id/btnPullCurrentState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/txtCurrentState"
-        android:layout_alignLeft="@+id/txtCurrentState"
         android:onClick="pullState"
-        android:text="@string/pull_location" />
+        android:text="@string/pull_location"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
