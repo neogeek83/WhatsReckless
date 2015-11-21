@@ -1,3 +1,4 @@
 out/*
 build/*
 local.properties
+.gradle/2.8/taskArtifacts/*
