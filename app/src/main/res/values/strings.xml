@@ -1,0 +1,73 @@
+<resources>
+    <string name="app_name">WhatsReckless</string>
+    <string name="pull_location">Get Current</string>
+    <string name="current_state"></string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="states">
+        <item>Alabama</item>
+        <item>Alaska</item>
+        <item>Arizona</item>
+        <item>Arkansas</item>
+        <item>California</item>
+        <item>Colorado</item>
+        <item>Connecticut</item>
+        <item>Delaware</item>
+        <item>Florida</item>
+        <item>Georgia</item>
+        <item>Hawaii</item>
+        <item>Idaho</item>
+        <item>Illinois Indiana</item>
+        <item>Iowa</item>
+        <item>Kansas</item>
+        <item>Kentucky</item>
+        <item>Louisiana</item>
+        <item>Maine</item>
+        <item>Maryland</item>
+        <item>Massachusetts</item>
+        <item>Michigan</item>
+        <item>Minnesota</item>
+        <item>Mississippi</item>
+        <item>Missouri</item>
+        <item>Montana Nebraska</item>
+        <item>Nevada</item>
+        <item>New Hampshire</item>
+        <item>New Jersey</item>
+        <item>New Mexico</item>
+        <item>New York</item>
+        <item>North Carolina</item>
+        <item>North Dakota</item>
+        <item>Ohio</item>
+        <item>Oklahoma</item>
+        <item>Oregon</item>
+        <item>Pennsylvania</item>
+        <item>Rhode Island</item>
+        <item>South Carolina</item>
+        <item>South Dakota</item>
+        <item>Tennessee</item>
+        <item>Texas</item>
+        <item>Utah</item>
+        <item>Vermont</item>
+        <item>Virginia</item>
+        <item>Washington</item>
+        <item>West Virginia</item>
+        <item>Wisconsin</item>
+        <item>Wyoming</item>
+    </string-array>
+
+    <!-- Location Strings -->
+    <string name="no_address_found">No address found for location</string>
+    <string name="IO_Exception_getFromLocation">IO Exception in Geocoder.getFromLocation()</string>
+    <string name="illegal_argument_exception">Illegal arguments: Latitude %1$.8f Longitude %2$.8f</string>
+
+    <!-- Address format -->
+    <string name="address_output_string">%1$s %2$s %3$s</string>
+    <string name="location_unassigned">Location has not been determined yet</string>
+    <string name="no_state_found">Location address did not resolve to address with state info</string>
+    <string name="unable_to_find_state_for_location">Unable to find current state for Location: Latitude %1$.8f Longitude %2$.8f</string>
+    <string name="no_gps_fix">No GPS Fix, go to window or outside</string>
+
+    <!-- Parsing error messages -->
+    <string name="invalid_wikipedia_headers">Invalid source information detected.</string>
+    <string name="permissions_failed">Unable to obtain location, permission denied</string>
+</resources>
