@@ -88,7 +88,7 @@ public class MainActivityFragment extends Fragment {
                 protected void onPostExecute(Map<String, String> result) {
 
                     if (result == null){
-                        webview.loadData("<html>Failed</html>", MimeTypeMap.getSingleton().getMimeTypeFromExtension(".html"), "UTF-8");
+                        webview.loadData("<html>Failed</html>", "text/html", "UTF-8");
                         return;
                     }
                     StringBuffer sb = new StringBuffer();
@@ -105,7 +105,7 @@ public class MainActivityFragment extends Fragment {
                                 .append("</td></tr>");
                     }
                     sb.append("</table></html>");
-                    webview.loadData(sb.toString(), MimeTypeMap.getSingleton().getMimeTypeFromExtension(".html"), "UTF-8");
+                    webview.loadData(sb.toString(), "text/html", "UTF-8");
                 }
 
                 /*

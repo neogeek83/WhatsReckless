@@ -1,0 +1,23 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="current_location_switch"
+        android:summary="@string/pref_description_current_location"
+        android:title="@string/pref_title_current_location" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:dependency="current_location_switch"
+        android:key="state_tracking_switch"
+        android:summary="@string/pref_description_state_tracking"
+        android:title="@string/pref_title_state_tracking" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:dependency="state_tracking_switch"
+        android:key="run_only_with_nav_apps_switch"
+        android:summary="@string/pref_description_run_only_with_nav_apps"
+        android:title="@string/pref_title_run_only_with_nav_apps" />
+
+</PreferenceScreen>
