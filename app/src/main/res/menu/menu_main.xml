@@ -3,8 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.thenealboys.kenny.whatsreckless.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/title_activity_settings"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/title_activity_settings"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/title_read_state_info"
+        android:orderInCategory="100"
+        android:title="@string/title_read_state_info"
+        app:showAsAction="ifRoom"/>
 </menu>

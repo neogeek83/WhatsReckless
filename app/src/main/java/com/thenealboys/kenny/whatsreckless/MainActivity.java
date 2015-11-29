@@ -88,9 +88,13 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
 
-            case R.id.action_settings:
+            case R.id.title_activity_settings:
                 Intent i = new Intent(this, SettingsActivity.class);
                 startActivityForResult(i, RESULT_SETTINGS);
+                return true;
+            case R.id.title_read_state_info:
+                MainActivityFragment frag = (MainActivityFragment)getSupportFragmentManager().findFragmentById (R.id.fragment);
+                frag.readInfo();
                 return true;
         }
         return super.onOptionsItemSelected(item);

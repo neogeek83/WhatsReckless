@@ -2,7 +2,6 @@
     <string name="app_name">WhatsReckless</string>
     <string name="pull_location">Get Current</string>
     <string name="current_state"></string>
-    <string name="action_settings">Settings</string>
 
     <string-array name="states">
         <item>Alabama</item>
@@ -73,6 +72,8 @@
 
     <!-- Strings related to Settings -->
     <string name="title_activity_settings">Settings</string>
+
+    <string name="title_read_state_info">Read info aloud</string>
 
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>

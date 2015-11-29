@@ -1,27 +1,23 @@
 package com.thenealboys.kenny.whatsreckless;
 
 import android.content.res.Resources;
-import android.location.Location;
 import android.os.AsyncTask;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.MimeTypeMap;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
-import com.thenealboys.kenny.whatsreckless.InformationAsyncTask;
-import com.thenealboys.kenny.whatsreckless.location.LocationLookup;
-import com.thenealboys.kenny.whatsreckless.location.StateChangeListener;
+import android.widget.Toast;
 
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -36,6 +32,8 @@ public class MainActivityFragment extends Fragment {
 
     private  Spinner spinner;
     private String[] states;
+    private Map<String, String> currentStateInfo;
+    private TextToSpeech textToSpeech;
     public MainActivityFragment() {
     }
 
@@ -91,6 +89,7 @@ public class MainActivityFragment extends Fragment {
                         webview.loadData("<html>Failed</html>", "text/html", "UTF-8");
                         return;
                     }
+                    currentStateInfo = result;
                     StringBuffer sb = new StringBuffer();
                     sb.append("<html><table>");
 
@@ -122,5 +121,43 @@ public class MainActivityFragment extends Fragment {
         } catch ( Exception e ) {
             Log.e( LOG_TAG, e.getMessage() );
         }
+    }
+
+    private void initTTS(){
+
+        if (textToSpeech == null){
+            textToSpeech = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(int status) {
+                    if(status != TextToSpeech.ERROR) {
+                        textToSpeech.setLanguage(Locale.US);
+                    } else {
+                        Log.e( LOG_TAG, "Error initializing Text To Speech engine (error code:" + status +")");
+                    }
+                }
+            });
+        }
+    }
+    public void readInfo() {
+        initTTS();
+        if (currentStateInfo == null){
+            Toast.makeText(getContext(), R.string.location_unassigned, Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        StringBuffer sb = new StringBuffer();
+
+        // Iteratively add each row to the table header to the row
+        String[] columnNames = currentStateInfo.get( InformationAsyncTask.COLUMN_NAMES ).split( "," );
+        for ( String columnName : columnNames ) {
+            if (columnName != "Details") {
+                sb
+                        .append(columnName)
+                        .append(" is ")
+                        .append(currentStateInfo.get(columnName) == null ? " unknown." : currentStateInfo.get(columnName));
+            }
+        }
+
+        textToSpeech.speak(sb.toString(), TextToSpeech.QUEUE_FLUSH, null);
     }
 }
