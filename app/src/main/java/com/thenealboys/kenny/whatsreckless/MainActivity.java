@@ -86,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        MainActivityFragment frag = (MainActivityFragment)getSupportFragmentManager().findFragmentById (R.id.fragment);
+
         switch (item.getItemId()) {
 
             case R.id.title_activity_settings:
@@ -93,8 +95,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(i, RESULT_SETTINGS);
                 return true;
             case R.id.title_read_state_info:
-                MainActivityFragment frag = (MainActivityFragment)getSupportFragmentManager().findFragmentById (R.id.fragment);
                 frag.readInfo();
+                return true;
+            case R.id.title_read_state_info_details:
+                frag.readDetails();
                 return true;
         }
         return super.onOptionsItemSelected(item);
