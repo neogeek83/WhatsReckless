@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
@@ -162,5 +163,23 @@ public class MainActivityFragment extends Fragment {
         }
 
         textToSpeech.speak(sb.toString(), TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+    public void readDetails() {
+        initTTS();
+        if (currentStateInfo == null){
+            Toast.makeText(getContext(), R.string.info_not_loaded, Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // Iteratively add each row to the table header to the row
+        ArrayList columnNames =  new ArrayList(Arrays.asList(currentStateInfo.get(InformationAsyncTask.COLUMN_NAMES).split(",")));
+
+        if(columnNames.contains("Details") && columnNames.contains("State")) {
+            String string = "Details for " + currentStateInfo.get("State") + ": " + currentStateInfo.get("Details");
+            textToSpeech.speak(string, TextToSpeech.QUEUE_FLUSH, null);
+        } else {
+            textToSpeech.speak("No details available", TextToSpeech.QUEUE_FLUSH, null);
+        }
     }
 }
