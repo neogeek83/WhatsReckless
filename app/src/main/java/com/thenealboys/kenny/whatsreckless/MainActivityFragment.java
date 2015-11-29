@@ -132,7 +132,10 @@ public class MainActivityFragment extends Fragment {
                     if(status != TextToSpeech.ERROR) {
                         textToSpeech.setLanguage(Locale.US);
                     } else {
-                        Log.e( LOG_TAG, "Error initializing Text To Speech engine (error code:" + status +")");
+                        String msg = getString(R.string.tts_init_error, status );
+                        Log.e( LOG_TAG, msg);
+
+                        Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
                     }
                 }
             });

@@ -70,6 +70,9 @@
     <string name="invalid_wikipedia_headers">Invalid source information detected.</string>
     <string name="permissions_failed">Unable to obtain location, permission denied</string>
 
+    <!-- TTS Errors -->
+    <string name="tts_init_error">Error initializing Text To Speech engine (error code:%1)</string>
+
     <!-- Strings related to Settings -->
     <string name="title_activity_settings">Settings</string>
 
