@@ -10,7 +10,7 @@ Disclaimer: All info in this app is pulled from open source content. The App aut
  
 == TODO ==
  * Add About panel which includes License and open source bits
- * Implement checking for other apps running (Waze, Google Maps, etc)
+ * Implement checking for other nagivation apps running and start up(Waze, Google Maps, etc)
  * Improve look and feel of information. Add some CSS and make it look decent.
  * Improve filter for reading aloud so doesn't read source URL
  * Setup background service to monitor when activity isn't active
@@ -18,3 +18,10 @@ Disclaimer: All info in this app is pulled from open source content. The App aut
  * Update disclaimer
  * Update google play description
  * Improve location accquision time by reducing restriction to require a "fine" location. "Course" should be good enough to determine what state you're in (although fine is good if waze or google maps already are using it).
+ * Notifiy if law requires:
+   - Lights while windshield wipers are running
+   - Fines tied to amount over speed limit
+   - Requires you to move over if slow in left lane long
+   - reckless threshold
+   - radar and laser detectors allowed
+   - Move vechicles out of roadway after a fender bender
